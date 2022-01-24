@@ -17,14 +17,15 @@
         <commons-dbcp2.version>2.9.0</commons-dbcp2.version>
         <mariadb-java-client.version>2.7.4</mariadb-java-client.version>
         <flyway-core.version>8.0.5</flyway-core.version>
-        <spring.version>5.3.14</spring.version>
+        <jackson-databind.version>2.13.1</jackson-databind.version>
+        <spring.version>5.3.15</spring.version>
         <spring.security.version>5.6.1</spring.security.version>
         <jstl.version>1.2</jstl.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <hibernate.version>5.6.3.Final</hibernate.version>
         <projectlombok.version>1.18.22</projectlombok.version>
         <logback.version>1.2.10</logback.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.33</slf4j.version>
         <junit.version>4.13.2</junit.version>
         <mockito-core.version>4.2.0</mockito-core.version>
     </properties>
@@ -62,6 +63,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <dependency>
