@@ -10,12 +10,13 @@ import javax.persistence.*;
 @Entity
 @OptimisticLocking
 @NoArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "authorities")
+public class Authorities {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "authorities_id")
     private Long id;
+    @Column(unique = true)
     private String username;
-    private String password;
-    private Integer enabled = 1;
+    @Enumerated
+    private RoleUser role;
 }
