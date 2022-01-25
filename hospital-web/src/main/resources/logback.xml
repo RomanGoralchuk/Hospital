@@ -20,13 +20,13 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="org.hibernate.type" level="DEBUG" />
-    <logger name="org.hibernate" level="DEBUG" />
-    <logger name="by.itacademy.javaenterprise.goralchuk.dao.BaseDao" level="DEBUG" />
+    <logger name="org.hibernate.type" level="INFO" />
+    <logger name="org.hibernate" level="INFO" />
+<!--    <logger name="by.itacademy.javaenterprise.goralchuk.dao.BaseDao" level="DEBUG" />
     <logger name="by.itacademy.javaenterprise.goralchuk.service.BookService" level="DEBUG" />
-    <logger name="by.itacademy.javaenterprise.goralchuk.aspects.LoggingAspect" level="DEBUG" />
+    <logger name="by.itacademy.javaenterprise.goralchuk.aspects.LoggingAspect" level="DEBUG" />-->
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="TIME_BASED_FILE"/>
     </root>

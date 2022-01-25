@@ -6,17 +6,17 @@ import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
 
-@Data
+/*@Data
 @Entity
 @OptimisticLocking
 @NoArgsConstructor
-@Table(name = "authorities")
+@Table(name = "authorities")*/
 public class Authorities {
-    @Id
+/*    @Id
     @Column(name = "authorities_id")
     private Long id;
     @Column(unique = true)
     private String username;
     @Enumerated
-    private RoleUser role;
+    private RoleUser role;*/
 }

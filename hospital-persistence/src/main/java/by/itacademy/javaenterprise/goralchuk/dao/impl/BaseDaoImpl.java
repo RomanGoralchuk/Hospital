@@ -1,6 +1,7 @@
 package by.itacademy.javaenterprise.goralchuk.dao.impl;
 
 import by.itacademy.javaenterprise.goralchuk.dao.Dao;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.List;
@@ -17,15 +18,10 @@ import java.util.List;
 @Repository
 @Transactional
 public class BaseDaoImpl<T> implements Dao<T> {
-    private final Class<T> clazz;
-
+    private Class<T> clazz;
     @PersistenceContext
+    @Getter
     private EntityManager entityManager;
-
-    public BaseDaoImpl(EntityManager entityManager, Class<T> clazz) {
-        this.entityManager = entityManager;
-        this.clazz = clazz;
-    }
 
     @Override
     public void saveOrUpdate(T entity, Long id) {
@@ -67,14 +63,13 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     @Transactional(readOnly = true)
     public List<T> findAll() {
-/*        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Variable> query = builder.createQuery(Variable.class);
-        Root<Variable> variableRoot = query.from(Variable.class);
-        query.select(variableRoot);
-        return em.createQuery(query).getResultList();*/
         try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> query = builder.createQuery(clazz);
+            Root<T> root = query.from(clazz);
+            query.select(root);
             log.debug("The save transaction was successful");
-            return (List<T>) entityManager.createQuery("FROM clazz").getResultList();
+            return entityManager.createQuery(query).getResultList();
         } catch (Exception e) {
             log.error("Transaction failed {}", e.getMessage(), e);
             return Collections.emptyList();

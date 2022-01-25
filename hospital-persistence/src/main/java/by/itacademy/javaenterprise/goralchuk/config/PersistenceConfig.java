@@ -25,8 +25,69 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"by.itacademy.javaenterprise.goralchuk.dao"})
 @PropertySource("classpath:database.properties")
-public class JpaConfig {
+public class PersistenceConfig {
     @Autowired
+    private Environment env;
+
+    @Bean(destroyMethod = "close")
+    public BasicDataSource dataSource() {
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName(env.getProperty("db.driver.class"));
+        basicDataSource.setUrl(env.getProperty("db.url"));
+        basicDataSource.setUsername(env.getProperty("db.username"));
+        basicDataSource.setPassword(env.getProperty("db.password"));
+        basicDataSource.setMaxTotal(env.getProperty("db.maxTotal", Integer.class));
+        return basicDataSource;
+    }
+
+    @Bean
+    public Properties hibernateProperties() {
+        Properties hibernateProp = new Properties();
+        hibernateProp.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        hibernateProp.put("hibernate.connection.autocommit", env.getProperty("hibernate.connection.autocommit"));
+        hibernateProp.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        hibernateProp.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+        hibernateProp.put("hibernate.physical_naming_strategy", env.getProperty("hibernate.physical_naming_strategy"));
+        return hibernateProp;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        return new JpaTransactionManager(entityManagerFactory());
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        return new HibernateJpaVendorAdapter();
+    }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory(){
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("by.itacademy.javaenterprise.goralchuk.entity");
+        factoryBean.setDataSource(dataSource());
+        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        factoryBean.setJpaProperties(hibernateProperties());
+        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+        factoryBean.afterPropertiesSet();
+        return factoryBean.getNativeEntityManagerFactory();
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    protected TransactionTemplate transactionTemplate() {
+        var transactionTemplate = new TransactionTemplate();
+        transactionTemplate.setTransactionManager(transactionManager());
+        transactionTemplate.setTimeout(env.getProperty("spring.transaction.timeout", Integer.class));
+        return transactionTemplate;
+    }
+
+
+/*    @Autowired
     private Environment env;
 
     @Bean(destroyMethod = "close")
@@ -82,5 +143,5 @@ public class JpaConfig {
         transactionTemplate.setTransactionManager(transactionManager());
         transactionTemplate.setTimeout(env.getProperty("spring.transaction.timeout", Integer.class));
         return transactionTemplate;
-    }
+    }*/
 }

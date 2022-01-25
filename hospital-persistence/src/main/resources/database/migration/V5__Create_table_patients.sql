@@ -1,8 +1,6 @@
 CREATE TABLE patients (
 patient_id BIGINT NOT NULL AUTO_INCREMENT,
 username VARCHAR(15) NOT NULL,
-patient_name VARCHAR(50) NOT NULL,
-patient_surname VARCHAR(50) NOT NULL,
 gender VARCHAR(20) NULL DEFAULT NULL,
 birthday_date DATE NULL DEFAULT NULL,
 life_status CHAR(5) NOT NULL DEFAULT 'alive',

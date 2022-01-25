@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.findAllUsers();
+        List<User> users = userService.showAllForbiddenInformationAboutUsers();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
