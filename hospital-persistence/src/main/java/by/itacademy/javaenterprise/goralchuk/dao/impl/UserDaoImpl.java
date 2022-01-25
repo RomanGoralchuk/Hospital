@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j(topic = "/ USER_DAO")
 @Repository
 @Transactional
-public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao<User> {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
     @Override
     public List<User> findAllPermittedInformationAboutUsers() {

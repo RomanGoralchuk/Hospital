@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 @Transactional
 public class BaseDaoImpl<T> implements Dao<T> {
-    private Class<T> clazz;
+    Class<T> clazz;
     @PersistenceContext
     @Getter
     private EntityManager entityManager;

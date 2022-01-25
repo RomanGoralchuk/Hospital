@@ -1,7 +1,9 @@
 package by.itacademy.javaenterprise.goralchuk.dao;
 
+import by.itacademy.javaenterprise.goralchuk.entity.User;
+
 import java.util.List;
 
-public interface UserDao<T> extends Dao<T> {
-    List<T> findAllPermittedInformationAboutUsers();
+public interface UserDao extends Dao<User> {
+    List<User> findAllPermittedInformationAboutUsers();
 }
