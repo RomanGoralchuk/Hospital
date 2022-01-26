@@ -1,43 +1,44 @@
 package by.itacademy.javaenterprise.goralchuk.service.impl;
 
 import by.itacademy.javaenterprise.goralchuk.dao.Dao;
-import by.itacademy.javaenterprise.goralchuk.dao.impl.BaseDao;
-import by.itacademy.javaenterprise.goralchuk.entity.User;
 import by.itacademy.javaenterprise.goralchuk.service.IService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
 @Slf4j
-public class BaseIService<T> implements IService<T> {
-
-/*    @Qualifier(value = "baseDao")
-    @Autowired*/
-    private Dao<T> dao;
+@Service
+@Transactional
+public class BaseService<T> implements IService<T> {
+    @Autowired
+    private Dao<T> baseDao;
+    @Autowired
+    TransactionTemplate transactionTemplate;
 
     @Override
     public void saveOrUpdate(T entity, Long id) {
-
+        baseDao.saveOrUpdate(entity, id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public T findById(Long id) {
-        return dao.findById(id);
+        return baseDao.findById(id);
     }
 
     @Override
     public long deleteById(Long id) {
-        return dao.deleteById(id);
+        return baseDao.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<T> findAll() {
-        return dao.findAll();
+        return baseDao.findAll();
     }
 }

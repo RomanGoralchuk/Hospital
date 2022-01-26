@@ -1,5 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.service.impl;
 
+import by.itacademy.javaenterprise.goralchuk.dao.Dao;
 import by.itacademy.javaenterprise.goralchuk.dao.UserDao;
 import by.itacademy.javaenterprise.goralchuk.entity.User;
 import by.itacademy.javaenterprise.goralchuk.service.UserService;
@@ -14,31 +15,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private UserDao userDao;
-
-
-    @Override
-    public void saveOrUpdate(User entity, Long id) {
-
-    }
-
-    @Override
-    public User findById(Long id) {
-        return userDao.findById(id);
-    }
-
-    @Override
-    public long deleteById(Long id) {
-        return 0;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return null;
-    }
+public class UserServiceImpl extends BaseService<User> implements UserService  {
 
     @Override
     public List<User> findAllPermittedInformationAboutUsers() {

@@ -1,10 +1,10 @@
 package by.itacademy.javaenterprise.goralchuk.dao.impl;
 
 import by.itacademy.javaenterprise.goralchuk.dao.Dao;
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,10 +17,10 @@ import java.util.List;
 @Slf4j(topic = "/ BASE_DAO")
 @Repository
 public class BaseDao<T> implements Dao<T> {
-    private Class<T> clazz;
+    Class<T> clazz;
     @PersistenceContext
     @Getter
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
     public void saveOrUpdate(T entity, Long id) {

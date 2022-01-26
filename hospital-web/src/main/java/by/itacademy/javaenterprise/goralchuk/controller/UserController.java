@@ -1,10 +1,7 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
 import by.itacademy.javaenterprise.goralchuk.entity.User;
-import by.itacademy.javaenterprise.goralchuk.service.IService;
 import by.itacademy.javaenterprise.goralchuk.service.UserService;
-import by.itacademy.javaenterprise.goralchuk.service.impl.BaseIService;
-import by.itacademy.javaenterprise.goralchuk.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
