@@ -21,14 +21,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<Object[]>> getUsers() {
+        List<Object[]> users = userService.findAllPermittedInformationAboutUsers();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(users, HttpStatus.OK);
         }
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> getPerson(@PathVariable("id") Long id) {
         User user = userService.findById(id);

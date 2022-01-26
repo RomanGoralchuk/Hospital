@@ -30,7 +30,7 @@ public class BaseDao<T> implements Dao<T> {
             } else {
                 entityManager.persist(entity);
             }
-            log.debug("The save transaction was successful");
+            log.debug("The SAVE_OR_UPDATE transaction was successful");
         } catch (Exception e) {
             log.error("Error add transaction {}", e.getMessage(), e);
         }
@@ -43,6 +43,7 @@ public class BaseDao<T> implements Dao<T> {
             log.debug("Object ID {} not found", id);
             return null;
         } else {
+            log.debug("The FIND_BY_ID transaction was successful");
             return entity;
         }
     }
@@ -52,7 +53,7 @@ public class BaseDao<T> implements Dao<T> {
         try {
             T entity = entityManager.getReference(clazz, id);
             entityManager.remove(entity);
-            log.debug("The save transaction was successful");
+            log.debug("The DELETE transaction was successful");
             return id;
         } catch (Exception e) {
             log.error("Transaction failed {}", e.getMessage(), e);
@@ -67,7 +68,7 @@ public class BaseDao<T> implements Dao<T> {
             CriteriaQuery<T> query = builder.createQuery(clazz);
             Root<T> root = query.from(clazz);
             query.select(root);
-            log.debug("The save transaction was successful");
+            log.debug("The FIND_ALL transaction was successful");
             return entityManager.createQuery(query).getResultList();
         } catch (Exception e) {
             log.error("Transaction failed {}", e.getMessage(), e);

@@ -16,9 +16,12 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl extends BaseService<User> implements UserService  {
+    @Autowired
+    private UserDao userDao;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<User> findAllPermittedInformationAboutUsers() {
-        return null;
+    public List<Object[]> findAllPermittedInformationAboutUsers() {
+        return userDao.findAllPermittedInformationAboutUsers();
     }
 }

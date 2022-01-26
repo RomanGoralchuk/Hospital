@@ -2,11 +2,13 @@ package by.itacademy.javaenterprise.goralchuk.dao.impl;
 
 import by.itacademy.javaenterprise.goralchuk.dao.UserDao;
 import by.itacademy.javaenterprise.goralchuk.entity.User;
+import by.itacademy.javaenterprise.goralchuk.entity.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j(topic = "/ USER_DAO")
@@ -19,40 +21,17 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
     }
 
     @Override
-    public List<User> findAllPermittedInformationAboutUsers() {
-        return null;
-    }
-/*    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public void saveOrUpdate(User entity, Long id) {
-        
-    }
-
-    @Override
-    public User findById(Long id) {
-        User entity = entityManager.find(User.class, id);
-        if (entity == null) {
-            log.debug("Object ID {} not found", id);
-            return null;
-        } else {
-            return entity;
+    public List<Object[]> findAllPermittedInformationAboutUsers() {
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+            Root<User> root = query.from(User.class);
+            query.multiselect(root.get("userInfo").get("name"), root.get("userInfo").get("surname"));
+            log.debug("The FIND_ALL transaction was successful");
+            return entityManager.createQuery(query).getResultList();
+        } catch (Exception e) {
+            log.error("Transaction failed {}", e.getMessage(), e);
+            return Collections.emptyList();
         }
     }
-
-    @Override
-    public long deleteById(Long id) {
-        return 0;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return null;
-    }
-
-    @Override
-    public List<User> findAllPermittedInformationAboutUsers() {
-        return null;
-    }*/
 }
