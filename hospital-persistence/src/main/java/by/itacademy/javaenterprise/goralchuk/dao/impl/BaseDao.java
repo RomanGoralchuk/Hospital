@@ -16,8 +16,7 @@ import java.util.List;
 
 @Slf4j(topic = "/ BASE_DAO")
 @Repository
-@Transactional
-public class BaseDaoImpl<T> implements Dao<T> {
+public class BaseDao<T> implements Dao<T> {
     Class<T> clazz;
     @PersistenceContext
     @Getter
@@ -38,13 +37,14 @@ public class BaseDaoImpl<T> implements Dao<T> {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public T findById(Long id) {
         T entity = entityManager.find(clazz, id);
         if (entity == null) {
             log.debug("Object ID {} not found", id);
+            return null;
+        } else {
+            return entity;
         }
-        return entity;
     }
 
     @Override
@@ -61,7 +61,6 @@ public class BaseDaoImpl<T> implements Dao<T> {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<T> findAll() {
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
