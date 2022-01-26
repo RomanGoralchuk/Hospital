@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j(topic = "/ BASE_DAO")
 @Repository
 public class BaseDao<T> implements Dao<T> {
-    Class<T> clazz;
+    private Class<T> clazz;
     @PersistenceContext
     @Getter
     private EntityManager entityManager;

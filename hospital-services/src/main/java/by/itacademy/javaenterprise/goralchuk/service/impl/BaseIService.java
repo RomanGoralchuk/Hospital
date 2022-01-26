@@ -13,11 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Slf4j
-@Service
-@Transactional
 public class BaseIService<T> implements IService<T> {
-    @Autowired
-    @Qualifier(value = "baseDao")
+
+/*    @Qualifier(value = "baseDao")
+    @Autowired*/
     private Dao<T> dao;
 
     @Override
