@@ -1,6 +1,7 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
 import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
+import by.itacademy.javaenterprise.goralchuk.entity.Message;
 import by.itacademy.javaenterprise.goralchuk.entity.User;
 import by.itacademy.javaenterprise.goralchuk.service.UserService;
 import by.itacademy.javaenterprise.goralchuk.util.MapperUtil;
@@ -21,6 +22,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    Message message;
 
     @GetMapping(value = "")
     public ResponseEntity<List<UserDto>> getPermittedInformationAboutUsers() {
@@ -41,7 +44,7 @@ public class UserController {
     }*/
 
     @GetMapping(value = "/{login}")
-    public ResponseEntity<User> getUserById(@PathVariable("login") String login) {
+    public ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
         User user = userService.findByLogin(login);
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
