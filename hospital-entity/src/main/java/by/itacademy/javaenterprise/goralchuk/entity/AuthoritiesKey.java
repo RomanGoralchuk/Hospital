@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "authorities")
-public class Authorities {
-    @EmbeddedId
-    private AuthoritiesKey id;
+@Embeddable
+public class AuthoritiesKey implements Serializable {
+    private String username;
+    @Enumerated
+    private RoleUser authority = RoleUser.ROLE_USER;
 }

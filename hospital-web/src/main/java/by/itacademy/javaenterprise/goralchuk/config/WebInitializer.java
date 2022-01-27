@@ -1,5 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.config;
 
+import by.itacademy.javaenterprise.goralchuk.security.WebSecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -7,7 +8,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {
-                PersistenceConfig.class, ServicesConfig.class
+                PersistenceConfig.class, ServicesConfig.class, WebSecurityConfig.class
         };
     }
 
