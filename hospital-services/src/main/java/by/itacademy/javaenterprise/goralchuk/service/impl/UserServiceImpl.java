@@ -22,6 +22,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService  {
     @Transactional(readOnly = true)
     @Override
     public List<User> findAllPermittedInformationAboutUsers() {
-        return userDao.findAllPermittedInformationAboutUsers();
+        return userDao.findAll();
     }
 }
