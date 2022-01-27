@@ -23,16 +23,14 @@ public class BaseDao<T> implements Dao<T> {
     protected EntityManager entityManager;
 
     @Override
-    public void saveOrUpdate(T entity, Long id) {
+    public T saveOrUpdate(T entity) {
         try {
-            if (id != null) {
-                entityManager.merge(entity);
-            } else {
-                entityManager.persist(entity);
-            }
+            entityManager.merge(entity);
             log.debug("The SAVE_OR_UPDATE transaction was successful");
+            return entity;
         } catch (Exception e) {
             log.error("Error add transaction {}", e.getMessage(), e);
+            return null;
         }
     }
 

@@ -3,7 +3,7 @@ package by.itacademy.javaenterprise.goralchuk.dao;
 import java.util.List;
 
 public interface Dao<T> {
-    void saveOrUpdate(T entity, Long id);
+    T saveOrUpdate(T entity);
 
     T findById(Long id);
 

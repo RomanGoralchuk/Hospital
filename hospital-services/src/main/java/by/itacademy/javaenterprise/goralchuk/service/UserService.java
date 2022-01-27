@@ -5,5 +5,5 @@ import by.itacademy.javaenterprise.goralchuk.entity.User;
 import java.util.List;
 
 public interface UserService extends IService<User> {
-    List<Object[]> findAllPermittedInformationAboutUsers();
+    List<User> findAllPermittedInformationAboutUsers();
 }

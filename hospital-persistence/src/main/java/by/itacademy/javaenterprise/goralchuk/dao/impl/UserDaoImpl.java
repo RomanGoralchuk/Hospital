@@ -6,6 +6,7 @@ import by.itacademy.javaenterprise.goralchuk.entity.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.Collections;
@@ -21,14 +22,14 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
     }
 
     @Override
-    public List<Object[]> findAllPermittedInformationAboutUsers() {
+    public List<User> findAllPermittedInformationAboutUsers() {
         try {
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
-            Root<User> root = query.from(User.class);
-            query.multiselect(root.get("userInfo").get("name"), root.get("userInfo").get("surname"));
-            log.debug("The FIND_ALL transaction was successful");
-            return entityManager.createQuery(query).getResultList();
+            List<User> userList = entityManager
+                    .createQuery("select " +
+                            "id, userInfo.name,userInfo.surname, userInfo.email, userInfo.phone " +
+                            "from User")
+                    .getResultList();
+            return userList;
         } catch (Exception e) {
             log.error("Transaction failed {}", e.getMessage(), e);
             return Collections.emptyList();

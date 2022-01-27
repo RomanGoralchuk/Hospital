@@ -1,13 +1,12 @@
 package by.itacademy.javaenterprise.goralchuk.service.impl;
 
 import by.itacademy.javaenterprise.goralchuk.dao.Dao;
+import by.itacademy.javaenterprise.goralchuk.entity.User;
 import by.itacademy.javaenterprise.goralchuk.service.IService;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class BaseService<T> implements IService<T> {
     private Dao<T> baseDao;
 
     @Override
-    public void saveOrUpdate(T entity, Long id) {
-        baseDao.saveOrUpdate(entity, id);
+    public T saveOrUpdate(T entity) {
+        return baseDao.saveOrUpdate(entity);
     }
 
     @Override

@@ -6,10 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +20,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<Object[]>> getUsers() {
-        List<Object[]> users = userService.findAllPermittedInformationAboutUsers();
+    public ResponseEntity<List<User>> getPermittedInformationAboutUsers() {
+        List<User> users = userService.findAllPermittedInformationAboutUsers();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -30,8 +29,16 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "")
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+        User newUser = userService.saveOrUpdate(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> getPerson(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

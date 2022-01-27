@@ -1,9 +1,11 @@
 package by.itacademy.javaenterprise.goralchuk.service;
 
+import by.itacademy.javaenterprise.goralchuk.entity.User;
+
 import java.util.List;
 
 public interface IService<T> {
-    void saveOrUpdate(T entity, Long id);
+    T saveOrUpdate(T entity);
 
     T findById(Long id);
 
