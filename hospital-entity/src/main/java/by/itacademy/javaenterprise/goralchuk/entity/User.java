@@ -1,5 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,6 +26,7 @@ public class User {
     private String username;
     @NotNull(message = "Password cannot be null")
     @Size(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
-    private Integer enabled = 1;
+    private int enabled = 1;
 }

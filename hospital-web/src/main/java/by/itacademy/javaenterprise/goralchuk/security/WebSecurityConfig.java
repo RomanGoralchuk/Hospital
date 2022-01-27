@@ -30,16 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(
                         securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/").authenticated()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/users").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/").authenticated()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .and().formLogin().permitAll()
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
     }
-
 
 }

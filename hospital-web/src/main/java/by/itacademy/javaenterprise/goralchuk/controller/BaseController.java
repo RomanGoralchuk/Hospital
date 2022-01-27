@@ -1,6 +1,8 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
+import by.itacademy.javaenterprise.goralchuk.entity.Message;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +15,15 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequestMapping("/")
-public class LoginController {
+public class BaseController {
+    @Autowired
+    Message message;
 
     @GetMapping(value = "")
-    public ResponseEntity<String> getInfoLoginPage(HttpServletRequest request) {
+    public ResponseEntity<Message> getInfoLoginPage(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
-        String hello =  "Hello user " + principal.getName() + "!";
-        return new ResponseEntity<>(hello, HttpStatus.OK);
+        String hello =  "Hello " + principal.getName() + "!";
+        message.setMessage(hello);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
