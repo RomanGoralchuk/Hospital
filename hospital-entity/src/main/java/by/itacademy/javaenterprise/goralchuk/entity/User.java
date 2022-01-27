@@ -19,9 +19,6 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NotNull(message = "Login cannot be null")
     @Max(value = 10, message = "Login should not be greater than 15")
     private String username;
@@ -29,6 +26,4 @@ public class User {
     @Size(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
     private String password;
     private Integer enabled = 1;
-    @Embedded
-    private UserInfo userInfo;
 }

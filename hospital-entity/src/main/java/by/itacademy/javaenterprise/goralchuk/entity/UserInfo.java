@@ -11,7 +11,6 @@ import javax.persistence.Embeddable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Embeddable
 public class UserInfo {
     @NotNull(message = "Name cannot be null")
     private String name;

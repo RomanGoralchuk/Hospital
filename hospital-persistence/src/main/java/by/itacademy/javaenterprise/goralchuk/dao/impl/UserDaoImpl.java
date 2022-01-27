@@ -21,8 +21,8 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
         clazz = User.class;
     }
 
-    @Override
-    public List<User> findAllPermittedInformationAboutUsers() {
+/*    @Override
+    public List<User> findAll() {
         try {
             List<User> userList = entityManager
                     .createQuery("select " +
@@ -34,5 +34,5 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
             log.error("Transaction failed {}", e.getMessage(), e);
             return Collections.emptyList();
         }
-    }
+    }*/
 }
