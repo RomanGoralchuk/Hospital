@@ -12,17 +12,19 @@ import org.springframework.security.core.userdetails.User;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    BasicDataSource dataSource;
+    private BasicDataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
+
+        auth.jdbcAuthentication().dataSource(dataSource);
+/*        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
 
         auth.inMemoryAuthentication()
                 .withUser(userBuilder.username("admin")
                         .password("admin").roles("ROLE_ADMIN"))
                 .withUser(userBuilder.username("masha")
-                        .password("masha").roles("ROLE_USER"));
+                        .password("masha").roles("ROLE_USER"));*/
     }
 
     @Override
