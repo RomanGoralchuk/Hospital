@@ -12,7 +12,7 @@ import java.security.Principal;
 
 @Slf4j
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
 
     @GetMapping(value = "")
