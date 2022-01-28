@@ -1,13 +1,19 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
+import by.itacademy.javaenterprise.goralchuk.dao.ResourceRepository;
 import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
 import by.itacademy.javaenterprise.goralchuk.entity.Message;
 import by.itacademy.javaenterprise.goralchuk.entity.User;
 import by.itacademy.javaenterprise.goralchuk.service.UserService;
+import by.itacademy.javaenterprise.goralchuk.service.XServ;
+import by.itacademy.javaenterprise.goralchuk.service.impl.XServImpl;
 import by.itacademy.javaenterprise.goralchuk.util.MapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +24,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+/*    @Autowired
+    private UserService userService;*/
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
     Message message;
+    @Autowired
+    XServ xServ;
 
     @GetMapping(value = "")
+    public ResponseEntity<List<UserDto>> getAllEmployees(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "username") String sortBy)
+    {
+        List<User> list = xServ.getAllEmployees(pageNo, pageSize, sortBy);
+        List<UserDto> listDto = MapperUtil.convertList(list, this::convertToUserDto);
+
+        return new ResponseEntity<>(listDto, new HttpHeaders(), HttpStatus.OK);
+    }
+
+/*    @GetMapping(value = "")
     public ResponseEntity<List<UserDto>> getPermittedInformationAboutUsers() {
         List<User> users = userService.findAll();
         if (users.isEmpty()) {
@@ -33,7 +53,7 @@ public class UserController {
         } else {
             return new ResponseEntity<>(MapperUtil.convertList(users, this::convertToUserDto), HttpStatus.OK);
         }
-    }
+    }*/
 
 /*    @PostMapping(value = "")
     public ResponseEntity<User> addUser(@RequestBody User user){
@@ -43,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }*/
 
-    @GetMapping(value = "/{login}")
+/*    @GetMapping(value = "/{login}")
     public ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
         User user = userService.findByLogin(login);
         if(user == null) {
@@ -51,7 +71,7 @@ public class UserController {
         } else {
             return new ResponseEntity<>(convertToNoPassUser(user), HttpStatus.CREATED);
         }
-    }
+    }*/
 
     private UserDto convertToUserDto(User user) {
         return modelMapper.map(user, UserDto.class);
