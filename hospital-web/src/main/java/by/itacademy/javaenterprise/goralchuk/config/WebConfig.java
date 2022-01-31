@@ -1,6 +1,7 @@
 package by.itacademy.javaenterprise.goralchuk.config;
 
-import by.itacademy.javaenterprise.goralchuk.entity.Message;
+import by.itacademy.javaenterprise.goralchuk.exception.MessageException;
+import by.itacademy.javaenterprise.goralchuk.util.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"by.itacademy.javaenterprise.goralchuk.controller",
-        "by.itacademy.javaenterprise.goralchuk.security"})
+        "by.itacademy.javaenterprise.goralchuk.security", "by.itacademy.javaenterprise.goralchuk.exception"})
 public class WebConfig {
     @Bean
     public ModelMapper getMapper() {
@@ -24,6 +25,11 @@ public class WebConfig {
     @Bean
     public Message getMessage() {
         return new Message();
+    }
+
+    @Bean
+    public MessageException getMessageException() {
+        return new MessageException();
     }
 
     @Bean

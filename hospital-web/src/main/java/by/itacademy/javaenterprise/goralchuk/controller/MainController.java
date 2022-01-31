@@ -1,6 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
-import by.itacademy.javaenterprise.goralchuk.entity.Message;
+import by.itacademy.javaenterprise.goralchuk.util.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequestMapping("/")
-public class BaseController {
+public class MainController {
     @Autowired
     Message message;
 

@@ -9,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,13 +23,13 @@ public class Doctor {
     @GenericGenerator(name = "doctor-generator",
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "D"),
             strategy = "by.itacademy.javaenterprise.goralchuk.generatorid.IdGenerator")
-    private Long id;
+    private String id;
+ /*   @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "id")
+    private User user;*/
+    @Embedded
+    private UserInfo userInfo;
     @Enumerated
     @NotNull(message = "Add specialization!")
     private Specialization specialization;
-    @Embedded
-    private UserInfo userInfo;
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
-    private User user;*/
 }

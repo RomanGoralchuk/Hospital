@@ -25,7 +25,7 @@ public class Patient {
     @GenericGenerator(name = "doctor-generator",
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "P"),
             strategy = "by.itacademy.javaenterprise.goralchuk.generatorid.IdGenerator")
-    private Long id;
+    private String id;
     @Embedded
     private UserInfo userInfo;
 /*    private User user;*/

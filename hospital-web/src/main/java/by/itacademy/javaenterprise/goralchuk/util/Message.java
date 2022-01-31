@@ -1,4 +1,4 @@
-package by.itacademy.javaenterprise.goralchuk.entity;
+package by.itacademy.javaenterprise.goralchuk.util;
 
 import lombok.Data;
 
