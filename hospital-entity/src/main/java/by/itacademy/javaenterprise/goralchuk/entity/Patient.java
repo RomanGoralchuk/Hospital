@@ -28,5 +28,5 @@ public class Patient {
     private Long id;
     @Embedded
     private UserInfo userInfo;
-    private User user;
+/*    private User user;*/
 }

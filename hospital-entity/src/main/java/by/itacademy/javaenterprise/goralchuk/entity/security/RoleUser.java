@@ -6,6 +6,7 @@ public enum RoleUser {
     ROLE_USER("user"),
     ROLE_ADMIN("admin"),
     ROLE_DOCTOR("doctor"),
+    ROLE_PATIENT("patient"),
     ROLE_MANAGER("manager");
 
     @Getter

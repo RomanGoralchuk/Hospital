@@ -27,7 +27,7 @@ public class Doctor {
     private Specialization specialization;
     @Embedded
     private UserInfo userInfo;
-    @ManyToOne(fetch = FetchType.LAZY)
+/*    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
-    private User user;
+    private User user;*/
 }
