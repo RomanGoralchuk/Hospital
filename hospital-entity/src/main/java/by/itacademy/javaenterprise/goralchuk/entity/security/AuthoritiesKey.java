@@ -1,4 +1,4 @@
-package by.itacademy.javaenterprise.goralchuk.entity;
+package by.itacademy.javaenterprise.goralchuk.entity.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

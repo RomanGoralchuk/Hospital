@@ -3,6 +3,7 @@ INSERT INTO authorities
 VALUES
 ('maria92' , 'ROLE_ADMIN'),
 ('sash', 'ROLE_DOCTOR'),
-('olga18', 'ROLE_MANAGER'),
-('vasiaXXX', 'ROLE_PATIENT')
+('sash', 'ROLE_DOCTOR'),
+('bbb11', 'ROLE_DOCTOR'),
+('olga18', 'ROLE_MANAGER')
 ;

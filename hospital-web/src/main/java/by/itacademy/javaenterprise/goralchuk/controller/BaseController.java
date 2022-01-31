@@ -20,7 +20,7 @@ public class BaseController {
     Message message;
 
     @GetMapping(value = "")
-    public ResponseEntity<Message> getInfoLoginPage(HttpServletRequest request) {
+    public ResponseEntity<Message> getInfoMainPage(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         String hello =  "Hello " + principal.getName() + "!";
         message.setMessage(hello);

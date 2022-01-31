@@ -25,7 +25,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"by.itacademy.javaenterprise.goralchuk.dao"})
-@EnableJpaRepositories(basePackages="by.itacademy.javaenterprise.goralchuk.dao")
+@EnableJpaRepositories(basePackages="by.itacademy.javaenterprise.goralchuk")
 @PropertySource("classpath:database.properties")
 public class PersistenceConfig {
     @Autowired
