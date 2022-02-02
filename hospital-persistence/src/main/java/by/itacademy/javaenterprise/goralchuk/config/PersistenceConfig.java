@@ -51,9 +51,7 @@ public class PersistenceConfig {
         hibernateProp.put("hibernate.connection.autocommit", env.getProperty("hibernate.connection.autocommit"));
         hibernateProp.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         hibernateProp.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-/*
         hibernateProp.put("hibernate.physical_naming_strategy", env.getProperty("hibernate.physical_naming_strategy"));
-*/
         return hibernateProp;
     }
 

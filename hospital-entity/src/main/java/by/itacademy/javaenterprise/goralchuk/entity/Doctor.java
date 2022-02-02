@@ -20,6 +20,10 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "doctors")
 public class Doctor {
     @Id
+    @GeneratedValue(generator = "doctor-generator")
+    @GenericGenerator(name = "doctor-generator",
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "D"),
+            strategy = "by.itacademy.javaenterprise.goralchuk.generatorid.IdGenerator")
     private String doctor_id;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
