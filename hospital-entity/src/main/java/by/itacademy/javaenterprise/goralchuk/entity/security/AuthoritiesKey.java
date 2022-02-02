@@ -13,6 +13,6 @@ import java.io.Serializable;
 @Embeddable
 public class AuthoritiesKey implements Serializable {
     private String username;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RoleUser authority = RoleUser.ROLE_USER;
 }

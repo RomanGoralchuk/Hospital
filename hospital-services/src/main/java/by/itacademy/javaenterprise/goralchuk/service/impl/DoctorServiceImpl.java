@@ -57,6 +57,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAll() {
         return doctorRepository.findAll();
     }

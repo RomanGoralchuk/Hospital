@@ -1,7 +1,11 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
+import by.itacademy.javaenterprise.goralchuk.dto.DoctorDto;
 import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
+import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
+import by.itacademy.javaenterprise.goralchuk.entity.security.Authorities;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
+import by.itacademy.javaenterprise.goralchuk.service.AuthoritiesService;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
 import by.itacademy.javaenterprise.goralchuk.entity.security.User;
 import by.itacademy.javaenterprise.goralchuk.service.UserService;
@@ -31,6 +35,8 @@ public class UserController {
     private Message message;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthoritiesService authoritiesService;
 
     @GetMapping(value = "")
     public ResponseEntity<List<UserDto>> getAllUsers(
@@ -62,6 +68,28 @@ public class UserController {
         newUser = userService.saveOrUpdate(user.get());
         return new ResponseEntity<>(convertToNoPassUser(newUser), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{id}/authorities")
+    public ResponseEntity<List<Authorities>> findUserAuthorities(@PathVariable("id") String id) {
+/*        Optional<User> newUser = userService.findById(id);
+        if (newUser.isEmpty()) {
+            throw new NoFoundException("No found user " + id);
+        }*/
+        List<Authorities> authoritiesList = authoritiesService.findAuthoritiesByUserId(id);
+        if (authoritiesList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(authoritiesList, HttpStatus.OK);
+    }
+
+/*    public ResponseEntity<List<DoctorDto>> getPersons() {
+        List<Doctor> doctorList = doctorService.findAll();
+        List<DoctorDto> listDto = MapperUtil.convertList(doctorList, this::convertToDoctorDto);
+        if (doctorList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(listDto, HttpStatus.OK);
+    }*/
 
     private UserDto convertToUserDto(User user) {
         return modelMapper.map(user, UserDto.class);
