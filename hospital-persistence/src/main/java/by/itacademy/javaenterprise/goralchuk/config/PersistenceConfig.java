@@ -1,5 +1,7 @@
 package by.itacademy.javaenterprise.goralchuk.config;
 
+import by.itacademy.javaenterprise.goralchuk.dao.DoctorRepository;
+import by.itacademy.javaenterprise.goralchuk.dao.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +51,26 @@ public class PersistenceConfig {
         hibernateProp.put("hibernate.connection.autocommit", env.getProperty("hibernate.connection.autocommit"));
         hibernateProp.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         hibernateProp.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+/*
         hibernateProp.put("hibernate.physical_naming_strategy", env.getProperty("hibernate.physical_naming_strategy"));
+*/
         return hibernateProp;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(entityManagerFactory());
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        return transactionManager;
     }
 
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
+    public HibernateJpaVendorAdapter jpaVendorAdapter() {
         return new HibernateJpaVendorAdapter();
     }
 
     @Bean
-    public EntityManagerFactory entityManagerFactory(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setPackagesToScan("by.itacademy.javaenterprise.goralchuk.entity");
         factoryBean.setDataSource(dataSource());
@@ -72,7 +78,7 @@ public class PersistenceConfig {
         factoryBean.setJpaProperties(hibernateProperties());
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.afterPropertiesSet();
-        return factoryBean.getNativeEntityManagerFactory();
+        return factoryBean;
     }
 
     @Bean

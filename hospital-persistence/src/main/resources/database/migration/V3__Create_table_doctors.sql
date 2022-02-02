@@ -7,5 +7,5 @@ email VARCHAR(50) NOT NULL,
 phone VARCHAR(50) NOT NULL,
 specialization VARCHAR(50) NOT NULL,
 PRIMARY KEY (doctor_id),
-FOREIGN KEY (username) REFERENCES users (username)
+FOREIGN KEY (username) REFERENCES users(username)
 );

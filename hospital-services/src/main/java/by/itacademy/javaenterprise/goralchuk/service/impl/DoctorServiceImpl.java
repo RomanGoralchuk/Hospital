@@ -26,7 +26,7 @@ import java.util.Optional;
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
-    DoctorRepository doctorRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
     public Doctor saveOrUpdate(Doctor entity) {
@@ -56,4 +56,8 @@ public class DoctorServiceImpl implements DoctorService {
         }
     }
 
+    @Override
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
+    }
 }

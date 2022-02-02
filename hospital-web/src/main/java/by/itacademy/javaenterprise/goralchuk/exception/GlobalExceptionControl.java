@@ -8,7 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.sql.Timestamp;
 
-@ControllerAdvice
+/*@ControllerAdvice*/
 public class GlobalExceptionControl {
 
     @ExceptionHandler

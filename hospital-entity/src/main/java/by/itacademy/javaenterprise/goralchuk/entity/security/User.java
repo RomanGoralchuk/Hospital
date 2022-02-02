@@ -34,6 +34,5 @@ public class User {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
     private int enabled = 1;
-/*    @OneToOne(mappedBy = "user")
-    private Doctor doctor;*/
+/*    private Doctor doctor;*/
 }

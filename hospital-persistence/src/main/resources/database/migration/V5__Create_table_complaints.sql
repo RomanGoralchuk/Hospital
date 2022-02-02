@@ -8,7 +8,5 @@ treatment VARCHAR(255) NULL DEFAULT NULL,
 date_start DATE NULL DEFAULT NULL,
 date_complete DATE NULL DEFAULT NULL,
 result_treatment VARCHAR(15) NOT NULL DEFAULT 'alive',
-PRIMARY KEY (complaint_id),
-FOREIGN KEY (doctor_id) REFERENCES doctors (doctor_id),
-FOREIGN KEY (patient_id) REFERENCES patients (patient_id)
+PRIMARY KEY (complaint_id)
 );

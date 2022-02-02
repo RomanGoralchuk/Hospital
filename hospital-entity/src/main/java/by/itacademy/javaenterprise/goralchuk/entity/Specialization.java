@@ -23,10 +23,14 @@ public enum Specialization {
     ORTHOPEDIC_SURGEON("ORTHOPEDIC_SURGEON"),
     CARDIAC_SURGEON("CARDIAC_SURGEON"),
     ANESTHESIOLOGIST("ANESTHESIOLOGIST");
-    @Getter
+
     private final String code;
 
     Specialization (String code) {
         this.code = code;
+    }
+
+    public String getCode() {
+        return code;
     }
 }
