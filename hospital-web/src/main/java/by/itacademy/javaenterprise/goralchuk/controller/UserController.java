@@ -4,6 +4,8 @@ import by.itacademy.javaenterprise.goralchuk.dto.DoctorDto;
 import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
 import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
 import by.itacademy.javaenterprise.goralchuk.entity.security.Authorities;
+import by.itacademy.javaenterprise.goralchuk.entity.security.AuthoritiesKey;
+import by.itacademy.javaenterprise.goralchuk.entity.security.RoleUser;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
 import by.itacademy.javaenterprise.goralchuk.service.AuthoritiesService;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
@@ -20,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -71,10 +75,6 @@ public class UserController {
 
     @GetMapping(value = "/{id}/authorities")
     public ResponseEntity<List<Authorities>> findUserAuthorities(@PathVariable("id") String id) {
-/*        Optional<User> newUser = userService.findById(id);
-        if (newUser.isEmpty()) {
-            throw new NoFoundException("No found user " + id);
-        }*/
         List<Authorities> authoritiesList = authoritiesService.findAuthoritiesByUserId(id);
         if (authoritiesList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -82,14 +82,29 @@ public class UserController {
         return new ResponseEntity<>(authoritiesList, HttpStatus.OK);
     }
 
-/*    public ResponseEntity<List<DoctorDto>> getPersons() {
-        List<Doctor> doctorList = doctorService.findAll();
-        List<DoctorDto> listDto = MapperUtil.convertList(doctorList, this::convertToDoctorDto);
-        if (doctorList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(listDto, HttpStatus.OK);
-    }*/
+    @PostMapping(value = "/{id}/authorities")
+    public ResponseEntity<Authorities> addAuthoritiesToUser(@RequestBody Authorities authorities) {
+        Authorities newAuthorities = authoritiesService.saveOrUpdate(authorities);
+        return new ResponseEntity<>(newAuthorities, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/{id}/authorities")
+    public ResponseEntity<Message> deleteAllRoles(@PathVariable("id") String id) {
+        authoritiesService.deleteAll(id);
+        String mess = "All roles for " + id + " deleted";
+        message.setMessage(mess);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/{id}/authorities/{role}")
+    public ResponseEntity<Message> deleteRole(@PathVariable("id") String id,
+                                              @PathVariable("role") String role) {
+        RoleUser roleUser = RoleUser.valueOf(role.toUpperCase());
+        authoritiesService.deleteById(new AuthoritiesKey(id, roleUser));
+        String mess = "Role " + role + " for " + id + " deleted";
+        message.setMessage(mess);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 
     private UserDto convertToUserDto(User user) {
         return modelMapper.map(user, UserDto.class);
