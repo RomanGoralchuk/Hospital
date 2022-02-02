@@ -1,14 +1,13 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
-import by.itacademy.javaenterprise.goralchuk.dto.DoctorDto;
-import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
+import by.itacademy.javaenterprise.goralchuk.dto.PatientDto;
 import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
+import by.itacademy.javaenterprise.goralchuk.entity.Patient;
 import by.itacademy.javaenterprise.goralchuk.entity.security.User;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
+import by.itacademy.javaenterprise.goralchuk.service.PatientService;
 import by.itacademy.javaenterprise.goralchuk.util.MapperUtil;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
-import by.itacademy.javaenterprise.goralchuk.service.DoctorService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +20,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.print.Doc;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController
-@RequestMapping("/doctors")
-public class DoctorController {
+@RequestMapping("/patients")
+public class PatientController {
 
     @Autowired
-    private DoctorService doctorService;
+    private PatientService patientService;
     @Autowired
     private Message message;
     @Autowired
@@ -49,42 +40,42 @@ public class DoctorController {
     private ModelMapper modelMapper;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<DoctorDto>> getPersons() {
-        List<Doctor> doctorList = doctorService.findAll();
-        List<DoctorDto> listDto = MapperUtil.convertList(doctorList, this::convertToDoctorDto);
-        if (doctorList.isEmpty()) {
+    public ResponseEntity<List<PatientDto>> getPatient() {
+        List<Patient> patientList = patientService.findAll();
+        List<PatientDto> listDto = MapperUtil.convertList(patientList, this::convertToPatientDto);
+        if (patientList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(listDto, HttpStatus.OK);
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-        doctor.getUsername()
+    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
+        patient.getUsername()
                 .setPassword("{bcrypt}" + passwordEncoder
-                        .encode(doctor.getUsername().getPassword()));
-        Doctor newDoctor = doctorService.saveOrUpdate(doctor);
-        return new ResponseEntity<>(newDoctor, HttpStatus.CREATED);
+                        .encode(patient.getUsername().getPassword()));
+        Patient newPatient = patientService.saveOrUpdate(patient);
+        return new ResponseEntity<>(newPatient, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<DoctorDto> findDoctorByID(@PathVariable("id") String id) {
-        Optional<Doctor> newUser = doctorService.findById(id);
+    public ResponseEntity<PatientDto> findPatientByID(@PathVariable("id") String id) {
+        Optional<Patient> newUser = patientService.findById(id);
         if (newUser.isEmpty()) {
             throw new NoFoundException("No found user " + id);
         }
-        return new ResponseEntity<>(convertToDoctorDto(newUser.get()), HttpStatus.OK);
+        return new ResponseEntity<>(convertToPatientDto(newUser.get()), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Message> deleteUserByID(@PathVariable("id") String id) {
-        doctorService.deleteById(id);
-        String mess = "Doctor " + id + " deleted";
+    public ResponseEntity<Message> deletePatientByID(@PathVariable("id") String id) {
+        patientService.deleteById(id);
+        String mess = "Patient " + id + " deleted";
         message.setMessage(mess);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    private DoctorDto convertToDoctorDto(Doctor doctor) {
-        return modelMapper.map(doctor, DoctorDto.class);
+    private PatientDto convertToPatientDto(Patient patient) {
+        return modelMapper.map(patient, PatientDto.class);
     }
 }

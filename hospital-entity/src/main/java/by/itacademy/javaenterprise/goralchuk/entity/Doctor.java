@@ -1,16 +1,22 @@
 package by.itacademy.javaenterprise.goralchuk.entity;
 
 import by.itacademy.javaenterprise.goralchuk.entity.security.User;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OptimisticLocking;
 
-import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
