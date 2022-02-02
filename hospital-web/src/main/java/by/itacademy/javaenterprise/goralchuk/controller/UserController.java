@@ -1,7 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
 import by.itacademy.javaenterprise.goralchuk.dto.UserDto;
-import by.itacademy.javaenterprise.goralchuk.exception.MessageException;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
 import by.itacademy.javaenterprise.goralchuk.entity.security.User;
@@ -43,13 +42,6 @@ public class UserController {
         return new ResponseEntity<>(listDto, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
-        User newUser = userService.saveOrUpdate(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findUserByID(@PathVariable("id") String id) {
         Optional<User> newUser = userService.findById(id);
@@ -59,12 +51,16 @@ public class UserController {
         return new ResponseEntity<>(convertToNoPassUser(newUser.get()), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Message>  deleteUserByID(@PathVariable("id") String id) {
-        userService.deleteById(id);
-        String mess = "User " + id + " deleted";
-        message.setMessage(mess);
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> updateUserStatus(@PathVariable("id") String id,
+                                                 @RequestBody User newUser) {
+        Optional<User> user = userService.findById(id);
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        user.get().setEnabled(newUser.getEnabled());
+        newUser = userService.saveOrUpdate(user.get());
+        return new ResponseEntity<>(convertToNoPassUser(newUser), HttpStatus.OK);
     }
 
     private UserDto convertToUserDto(User user) {

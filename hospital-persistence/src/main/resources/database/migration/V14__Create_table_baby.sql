@@ -1,6 +1,0 @@
-CREATE TABLE baby (
-name VARCHAR(15) NOT NULL,
-surname VARCHAR(15) NOT NULL,
-PRIMARY KEY (name)
-);
-

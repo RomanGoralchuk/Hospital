@@ -1,7 +1,5 @@
 package by.itacademy.javaenterprise.goralchuk.config;
 
-import by.itacademy.javaenterprise.goralchuk.dao.DoctorRepository;
-import by.itacademy.javaenterprise.goralchuk.dao.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
