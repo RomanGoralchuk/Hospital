@@ -1,7 +1,9 @@
 package by.itacademy.javaenterprise.goralchuk.entity.security;
 
 import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
