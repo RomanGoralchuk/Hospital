@@ -57,18 +57,16 @@ public class PersistenceConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-        return transactionManager;
+        return new JpaTransactionManager(entityManagerFactory());
     }
 
     @Bean
-    public HibernateJpaVendorAdapter jpaVendorAdapter() {
+    public JpaVendorAdapter jpaVendorAdapter() {
         return new HibernateJpaVendorAdapter();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+    public EntityManagerFactory entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setPackagesToScan("by.itacademy.javaenterprise.goralchuk.entity");
         factoryBean.setDataSource(dataSource());
@@ -76,7 +74,7 @@ public class PersistenceConfig {
         factoryBean.setJpaProperties(hibernateProperties());
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.afterPropertiesSet();
-        return factoryBean;
+        return factoryBean.getNativeEntityManagerFactory();
     }
 
     @Bean
