@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
     @Id
+    @Column(name = "username")
     @NotNull(message = "Login cannot be null")
     @Max(value = 15, message = "Login should not be greater than 15")
     private String username;
@@ -34,5 +36,4 @@ public class User {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
     private int enabled = 1;
-/*    private Doctor doctor;*/
 }

@@ -21,12 +21,11 @@ import static javax.persistence.FetchType.LAZY;
 public class Doctor {
     @Id
     private String doctor_id;
-/*    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username")*/
-    private String username;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username")
+    private User username;
     @Embedded
     private UserInfo userInfo;
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
-
 }
