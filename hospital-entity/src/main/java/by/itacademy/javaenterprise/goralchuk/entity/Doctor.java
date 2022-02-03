@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -38,4 +39,6 @@ public class Doctor {
     private UserInfo userInfo;
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
+
+    private List<Complains> complainsList;
 }

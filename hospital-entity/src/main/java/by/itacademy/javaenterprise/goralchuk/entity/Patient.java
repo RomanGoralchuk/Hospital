@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,4 +37,6 @@ public class Patient {
     private User username;
     @Embedded
     private UserInfo userInfo;
+
+    private List<Complains> complainsList;
 }

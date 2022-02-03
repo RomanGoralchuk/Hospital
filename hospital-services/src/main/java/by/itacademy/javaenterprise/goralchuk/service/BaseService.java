@@ -1,5 +1,6 @@
 package by.itacademy.javaenterprise.goralchuk.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,5 +12,5 @@ public interface BaseService<T, ID> {
 
     void deleteById(ID id);
 
-    public List<T> findAll(Integer pageNo, Integer pageSize, String sortBy);
+    List<T> findAll(Integer pageNo, Integer pageSize, String sortBy);
 }

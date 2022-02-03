@@ -1,10 +1,10 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
 import by.itacademy.javaenterprise.goralchuk.dto.PatientDto;
-import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
+import by.itacademy.javaenterprise.goralchuk.entity.Complains;
 import by.itacademy.javaenterprise.goralchuk.entity.Patient;
-import by.itacademy.javaenterprise.goralchuk.entity.security.User;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
+import by.itacademy.javaenterprise.goralchuk.service.ComplainsService;
 import by.itacademy.javaenterprise.goralchuk.service.PatientService;
 import by.itacademy.javaenterprise.goralchuk.util.MapperUtil;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,8 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private ComplainsService complainsService;
     @Autowired
     private Message message;
     @Autowired
@@ -73,6 +77,18 @@ public class PatientController {
         String mess = "Patient " + id + " deleted";
         message.setMessage(mess);
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/complains")
+    public ResponseEntity<List<Complains>> findAllUserComplains(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @PathVariable("id") String id) {
+        List<Complains> complains = complainsService.findAllComplains();
+        if (complains.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(complains, HttpStatus.OK);
     }
 
     private PatientDto convertToPatientDto(Patient patient) {
