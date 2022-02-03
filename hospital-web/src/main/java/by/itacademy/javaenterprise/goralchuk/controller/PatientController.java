@@ -100,7 +100,6 @@ public class PatientController {
                                                  @PathVariable("id") String id) {
         Optional<Patient> patient = patientService.findById(id);
         complains.setPatient(patient.orElse(null));
-
         Complains complainsNew = complainsService.saveOrUpdate(complains);
         return new ResponseEntity<>(convertToComplainDto(complainsNew), HttpStatus.CREATED);
     }

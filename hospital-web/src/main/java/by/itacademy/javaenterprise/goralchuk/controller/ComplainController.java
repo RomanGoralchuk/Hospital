@@ -2,7 +2,12 @@ package by.itacademy.javaenterprise.goralchuk.controller;
 
 import by.itacademy.javaenterprise.goralchuk.dto.ComplainsDto;;
 import by.itacademy.javaenterprise.goralchuk.entity.Complains;
+import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
+import by.itacademy.javaenterprise.goralchuk.entity.security.User;
+import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
 import by.itacademy.javaenterprise.goralchuk.service.ComplainsService;
+import by.itacademy.javaenterprise.goralchuk.service.DoctorService;
+import by.itacademy.javaenterprise.goralchuk.util.ChooseDoctor;
 import by.itacademy.javaenterprise.goralchuk.util.MapperUtil;
 import by.itacademy.javaenterprise.goralchuk.util.Message;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +34,8 @@ public class ComplainController {
 
     @Autowired
     private ComplainsService complainsService;
+    @Autowired
+    private DoctorService doctorService;
     @Autowired
     private Message message;
     @Autowired
@@ -51,18 +59,24 @@ public class ComplainController {
             @PathVariable("id") Long id) {
         Optional<Complains> complains = complainsService.findById(id);
         if (complains.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            throw new NoFoundException("No found complain " + id);
         }
         return new ResponseEntity<>(convertToComplainDto(complains.get()), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}")
-    public ResponseEntity<Complains> addDoctorToComplain(@RequestBody Complains complains,
-                                                         @PathVariable("id") Long id) {
-
-
-        Complains complainsNew = complainsService.saveOrUpdate(complains);
-        return new ResponseEntity<>(complainsNew, HttpStatus.CREATED);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ComplainsDto> addDoctorToComplain(
+            @PathVariable("id") Long id,
+            @RequestBody Message message
+    ) {
+        Optional<Complains> addData = complainsService.findById(id);
+        Optional<Doctor> findDoc = doctorService.findById(message.getMessage());
+        if (addData.isEmpty() || findDoc.isEmpty()) {
+            throw new NoFoundException("No found complain " + id);
+        }
+        addData.get().setDoctor(findDoc.get());
+        complainsService.saveOrUpdate(addData.get());
+        return new ResponseEntity<>(convertToComplainDto(addData.get()), HttpStatus.CREATED);
     }
 
 
