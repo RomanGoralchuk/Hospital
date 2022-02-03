@@ -96,13 +96,13 @@ public class PatientController {
     }
 
     @PostMapping(value = "/{id}/complains")
-    public ResponseEntity<Complains> addComplain(@RequestBody Complains complains,
+    public ResponseEntity<ComplainsDto> addComplain(@RequestBody Complains complains,
                                                  @PathVariable("id") String id) {
         Optional<Patient> patient = patientService.findById(id);
         complains.setPatient(patient.orElse(null));
 
         Complains complainsNew = complainsService.saveOrUpdate(complains);
-        return new ResponseEntity<>(complainsNew, HttpStatus.CREATED);
+        return new ResponseEntity<>(convertToComplainDto(complainsNew), HttpStatus.CREATED);
     }
 
     private PatientDto convertToPatientDto(Patient patient) {

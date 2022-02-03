@@ -53,7 +53,7 @@ public class Complains {
     @Temporal(TemporalType.DATE)
     private Date dateComplete;
     @Convert(converter = LifeStatus.LifeStatusConverter.class)
-    private LifeStatus resultTreatment = LifeStatus.ALIVE;
+    private LifeStatus resultTreatment;
 
     @PrePersist
     protected void onCreate() {

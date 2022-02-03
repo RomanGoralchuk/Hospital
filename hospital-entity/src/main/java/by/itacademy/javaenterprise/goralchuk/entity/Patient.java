@@ -11,6 +11,7 @@ import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,11 +36,15 @@ public class Patient {
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "P"),
             strategy = "by.itacademy.javaenterprise.goralchuk.generatorid.IdGenerator")
     private String patient_id;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
     private User username;
+
     @Embedded
     private UserInfo userInfo;
+    @Convert(converter = LifeStatus.LifeStatusConverter.class)
+    private LifeStatus lifeStatus = LifeStatus.ALIVE;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "patient")

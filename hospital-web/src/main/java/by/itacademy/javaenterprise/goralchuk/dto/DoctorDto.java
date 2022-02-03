@@ -17,8 +17,6 @@ public class DoctorDto {
     private String doctor_id;
     @JsonProperty("username")
     private UserDto username;
-    @Embedded
     private UserInfo userInfo;
-    @Enumerated(EnumType.STRING)
     private Specialization specialization;
 }
