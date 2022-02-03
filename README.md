@@ -24,6 +24,7 @@
 * Docker-compose
 * Hibernate
 * Jetty
+* Jackson
 
 ### How to run
 1. Start scripts:
@@ -31,3 +32,6 @@
 * `docker-compose up`
 * `mvn compile flyway:migrate`
 2. Start servlet container and deploy war-file
+
+### Additional Info
+In the project directory is json document for Postman
