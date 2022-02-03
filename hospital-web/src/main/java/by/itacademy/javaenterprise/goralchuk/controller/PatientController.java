@@ -1,8 +1,12 @@
 package by.itacademy.javaenterprise.goralchuk.controller;
 
+import by.itacademy.javaenterprise.goralchuk.dto.ComplainsDto;
+import by.itacademy.javaenterprise.goralchuk.dto.DoctorDto;
 import by.itacademy.javaenterprise.goralchuk.dto.PatientDto;
 import by.itacademy.javaenterprise.goralchuk.entity.Complains;
+import by.itacademy.javaenterprise.goralchuk.entity.Doctor;
 import by.itacademy.javaenterprise.goralchuk.entity.Patient;
+import by.itacademy.javaenterprise.goralchuk.entity.security.User;
 import by.itacademy.javaenterprise.goralchuk.exception.NoFoundException;
 import by.itacademy.javaenterprise.goralchuk.service.ComplainsService;
 import by.itacademy.javaenterprise.goralchuk.service.PatientService;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -80,18 +85,31 @@ public class PatientController {
     }
 
     @GetMapping(value = "/{id}/complains")
-    public ResponseEntity<List<Complains>> findAllUserComplains(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
+    public ResponseEntity<List<ComplainsDto>> findAllUserComplainsById(
             @PathVariable("id") String id) {
-        List<Complains> complains = complainsService.findAllComplains();
+        List<Complains> complains = complainsService.findAllComplainsByPatientId(id);
+        List<ComplainsDto> complainsListDto = MapperUtil.convertList(complains, this::convertToComplainDto);
         if (complains.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(complains, HttpStatus.OK);
+        return new ResponseEntity<>(complainsListDto, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/complains")
+    public ResponseEntity<Complains> addComplain(@RequestBody Complains complains,
+                                                 @PathVariable("id") String id) {
+        Optional<Patient> patient = patientService.findById(id);
+        complains.setPatient(patient.orElse(null));
+
+        Complains complainsNew = complainsService.saveOrUpdate(complains);
+        return new ResponseEntity<>(complainsNew, HttpStatus.CREATED);
     }
 
     private PatientDto convertToPatientDto(Patient patient) {
         return modelMapper.map(patient, PatientDto.class);
+    }
+
+    private ComplainsDto convertToComplainDto(Complains complains) {
+        return modelMapper.map(complains, ComplainsDto.class);
     }
 }

@@ -29,18 +29,18 @@ public class ComplainsServiceImpl implements ComplainsService {
 
     @Override
     public Complains saveOrUpdate(Complains entity) {
-        return null;
+        return complainsRepository.save(entity);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Complains> findById(Long aLong) {
-        return Optional.empty();
+    public Optional<Complains> findById(Long id) {
+        return complainsRepository.findById(id);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public void deleteById(Long id) {
+        complainsRepository.deleteById(id);
     }
 
     @Override
@@ -55,8 +55,9 @@ public class ComplainsServiceImpl implements ComplainsService {
         }
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<Complains> findAllComplains() {
-        return complainsRepository.findAll();
+    public List<Complains> findAllComplainsByPatientId(String patientId) {
+        return complainsRepository.findAllComplainsByPatientId(patientId);
     }
 }

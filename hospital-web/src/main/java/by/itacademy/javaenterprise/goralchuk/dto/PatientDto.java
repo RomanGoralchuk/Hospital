@@ -12,7 +12,7 @@ import javax.persistence.Embedded;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatientDto {
-    private String id;
+    private String patient_id;
     @JsonProperty("username")
     private UserDto username;
     @Embedded
