@@ -36,8 +36,6 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private Message message;
-    @Autowired
     private UserService userService;
     @Autowired
     private AuthoritiesService authoritiesService;
@@ -92,6 +90,7 @@ public class UserController {
     public ResponseEntity<Message> deleteAllRoles(@PathVariable("id") String id) {
         authoritiesService.deleteAll(id);
         String mess = "All roles for " + id + " deleted";
+        Message message = new Message();
         message.setMessage(mess);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
@@ -102,6 +101,7 @@ public class UserController {
         RoleUser roleUser = RoleUser.valueOf(role.toUpperCase());
         authoritiesService.deleteById(new AuthoritiesKey(id, roleUser));
         String mess = "Role " + role + " for " + id + " deleted";
+        Message message = new Message();
         message.setMessage(mess);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

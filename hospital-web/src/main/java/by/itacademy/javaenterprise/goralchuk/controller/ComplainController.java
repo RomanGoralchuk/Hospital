@@ -37,8 +37,6 @@ public class ComplainController {
     @Autowired
     private DoctorService doctorService;
     @Autowired
-    private Message message;
-    @Autowired
     private ModelMapper modelMapper;
 
     @GetMapping(value = "")

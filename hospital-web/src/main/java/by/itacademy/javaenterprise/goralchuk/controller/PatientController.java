@@ -42,8 +42,6 @@ public class PatientController {
     @Autowired
     private ComplainsService complainsService;
     @Autowired
-    private Message message;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ModelMapper modelMapper;
@@ -80,6 +78,7 @@ public class PatientController {
     public ResponseEntity<Message> deletePatientByID(@PathVariable("id") String id) {
         patientService.deleteById(id);
         String mess = "Patient " + id + " deleted";
+        Message message = new Message();
         message.setMessage(mess);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -16,13 +16,12 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/")
 public class MainController {
-    @Autowired
-    Message message;
 
     @GetMapping(value = "")
     public ResponseEntity<Message> getInfoMainPage(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         String hello =  "Hello " + principal.getName() + "!";
+        Message message = new Message();
         message.setMessage(hello);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
